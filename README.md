@@ -1,18 +1,23 @@
-# Task-4-SQL-for-data-analysis
+# 📊 Data Analysis Project: Data Insertion and Querying using PostgreSQL (pgAdmin4)
 
-This project demonstrates core SQL skills for data extraction and analysis using a loan application database.
+## 📁 Project Overview
 
-## Project Objective
+This project demonstrates how to create and manipulate a basic e-commerce-style relational database using PostgreSQL (executed via pgAdmin4). It covers:
 
-The goal was to practice various SQL techniques to query and manipulate data, including:
-- Basic queries with `SELECT`, `WHERE`, `GROUP BY`, and `ORDER BY`.
-- Using aggregate functions like `SUM` and `AVG`.
-- Writing subqueries to perform more complex data analysis.
-- Performing `INSERT`, `UPDATE`, and `DELETE` operations.
+- Creating multiple related tables
+- Inserting sample data
+- Running complex SQL queries
+- Using joins, subqueries, aggregate functions, views, and indexing
 
-## Tasks Covered
-- **SQL for Data Analysis:** Executing a series of analytical queries to derive insights from the data.
+---
 
-## Tools Used
+## 🧱 Database Schema
 
-- **PostgreSQL:**  SQL database environment.
+### 1. Customers Table
+```sql
+customers(customer_id, first_name, last_name, email, city)
+orders(order_id, customer_id, order_date, total_amount)
+order_items(order_item_id, order_id, product_id, quantity, price)
+products(product_id, name, category, price)
+suppliers(supplier_id, name, contact_info)
+product_suppliers(product_id, supplier_id)
