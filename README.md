@@ -11,10 +11,8 @@ The goal was to practice various SQL techniques to query and manipulate data, in
 - Performing `INSERT`, `UPDATE`, and `DELETE` operations.
 
 ## Tasks Covered
-- **Task 2: Data Insertion and Handling Nulls:** Populating the database with loan application records and managing missing values.
-- **Task 4: SQL for Data Analysis:** Executing a series of analytical queries to derive insights from the data.
+- **SQL for Data Analysis:** Executing a series of analytical queries to derive insights from the data.
 
 ## Tools Used
 
-- **MySQL / PostgreSQL / SQLite:** Any SQL database environment.
-- **DB Fiddle / SQLiteStudio:** Tools used to execute the queries.
+- **PostgreSQL:**  SQL database environment.
