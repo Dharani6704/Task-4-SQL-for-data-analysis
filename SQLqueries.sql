@@ -1,88 +1,140 @@
--- Create the table schema
-CREATE TABLE Loan_Applications (
-    Loan_ID VARCHAR(20) PRIMARY KEY,
-    Gender VARCHAR(10),
-    Married VARCHAR(3),
-    Dependents VARCHAR(5),
-    Education VARCHAR(20),
-    Self_Employed VARCHAR(3),
-    ApplicantIncome DECIMAL(10, 2),
-    CoapplicantIncome DECIMAL(10, 2),
-    LoanAmount DECIMAL(10, 2),
-    Loan_Amount_Term INT,
-    Credit_History INT,
-    Property_Area VARCHAR(20),
-    Loan_Status VARCHAR(1)
+-- CREATE TABLES
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    city VARCHAR(50)
 );
 
--- Insert the  data
-INSERT INTO Loan_Applications (Loan_ID, Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term, Credit_History, Property_Area, Loan_Status) VALUES
-('LP001002', 'Male', 'No', '0', 'Graduate', 'No', 5849.00, 0.00, NULL, 360, 1, 'Urban', 'Y'),
-('LP001003', 'Male', 'Yes', '1', 'Graduate', 'No', 4583.00, 1508.00, 128.00, 360, 1, 'Rural', 'N'),
-('LP001005', 'Male', 'Yes', '0', 'Graduate', 'Yes', 3000.00, 0.00, 66.00, 360, 1, 'Urban', 'Y'),
-('LP001006', 'Male', 'Yes', '0', 'Not Graduate', 'No', 2583.00, 2358.00, 120.00, 360, 1, 'Urban', 'Y'),
-('LP001008', 'Male', 'No', '0', 'Graduate', 'No', 6000.00, 0.00, 141.00, 360, 1, 'Urban', 'Y'),
-('LP001011', 'Male', 'Yes', '2', 'Graduate', 'Yes', 5417.00, 4196.00, 267.00, 360, 1, 'Urban', 'Y'),
-('LP001013', 'Male', 'Yes', '0', 'Not Graduate', 'No', 2333.00, 1516.00, 95.00, 360, 1, 'Urban', 'Y'),
-('LP001014', 'Male', 'Yes', '3+', 'Graduate', 'No', 3036.00, 2504.00, 158.00, 360, 0, 'Semiurban', 'N'),
-('LP001018', 'Male', 'Yes', '2', 'Graduate', 'No', 4006.00, 1526.00, 168.00, 360, 1, 'Urban', 'Y'),
-('LP001020', 'Male', 'Yes', '1', 'Graduate', 'No', 12841.00, 10968.00, 349.00, 360, 1, 'Semiurban', 'N'),
-('LP001024', 'Male', 'Yes', '2', 'Graduate', 'No', 3200.00, 700.00, 70.00, 360, 1, 'Urban', 'Y'),
-('LP001027', 'Male', 'Yes', '2', 'Graduate', 'No', 2500.00, 1840.00, 109.00, 360, 1, 'Urban', 'Y'),
-('LP001028', 'Male', 'Yes', '2', 'Graduate', 'No', 3073.00, 8106.00, 200.00, 360, 1, 'Urban', 'N'),
-('LP001029', 'Male', 'No', '0', 'Graduate', 'No', 1853.00, 2840.00, 114.00, 360, 1, 'Rural', 'N'),
-('LP001030', 'Male', 'Yes', '2', 'Graduate', 'No', 1299.00, 1086.00, 17.00, 120, 1, 'Urban', 'Y'),
-('LP001032', 'Male', 'No', '0', 'Graduate', 'No', 4950.00, 0.00, 125.00, 360, 1, 'Urban', 'Y'),
-('LP001034', 'Male', 'No', '1', 'Not Graduate', 'No', 3596.00, 0.00, 100.00, 240, 1, 'Urban', 'Y'),
-('LP001036', 'Female', 'No', '0', 'Graduate', 'No', 3510.00, 0.00, 76.00, 360, 0, 'Urban', 'N'),
-('LP001038', 'Male', 'Yes', '0', 'Not Graduate', 'No', 4887.00, 0.00, 133.00, 360, 1, 'Rural', 'N'),
-('LP001041', 'Male', 'Yes', '0', 'Graduate', 'No', 2600.00, 3500.00, 115.00, 360, 1, 'Urban', 'Y'),
-('LP001043', 'Male', 'Yes', '0', 'Not Graduate', 'No', 7660.00, 0.00, 104.00, 360, 0, 'Urban', 'N'),
-('LP001046', 'Male', 'Yes', '1', 'Graduate', 'No', 5955.00, 5625.00, 315.00, 360, 1, 'Semiurban', 'Y'),
-('LP001047', 'Male', 'Yes', '0', 'Not Graduate', 'No', 2600.00, 1911.00, 116.00, 360, 0, 'Semiurban', 'N'),
-('LP001050', 'Male', 'Yes', '2', 'Graduate', 'No', 3365.00, 1917.00, 112.00, 360, 0, 'Rural', 'N'),
-('LP001052', 'Male', 'Yes', '1', 'Graduate', 'No', 3717.00, 2925.00, 151.00, 360, 1, 'Semiurban', 'N');
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_id INT REFERENCES customers(customer_id),
+    order_date DATE,
+    total_amount DECIMAL(10, 2)
+);
 
--- Update the LoanAmount for LP001003
-UPDATE Loan_Applications
-SET LoanAmount = 135.00
-WHERE Loan_ID = 'LP001003';
+CREATE TABLE products (
+    product_id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    category VARCHAR(50),
+    price DECIMAL(10, 2)
+);
 
--- Delete the record for LP001036
-DELETE FROM Loan_Applications
-WHERE Loan_ID = 'LP001036';
+CREATE TABLE suppliers (
+    supplier_id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    contact_info VARCHAR(100)
+);
 
--- Select all records to verify changes
-SELECT * FROM Loan_Applications;
+CREATE TABLE product_suppliers (
+    product_id INT REFERENCES products(product_id),
+    supplier_id INT REFERENCES suppliers(supplier_id),
+    PRIMARY KEY (product_id, supplier_id)
+);
 
---Subqueries
--- Applicants with an Income Higher than the Average Income
-SELECT
-    Loan_ID,
-    Gender,
-    ApplicantIncome
-FROM
-    Loan_Applications
-WHERE
-    ApplicantIncome > (
-        SELECT AVG(ApplicantIncome)
-        FROM Loan_Applications
-    )
-ORDER BY
-    ApplicantIncome DESC;
+CREATE TABLE order_items (
+    order_item_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES orders(order_id),
+    product_id INT REFERENCES products(product_id),
+    quantity INT,
+    price DECIMAL(10, 2)
+);
 
--- Applicants Whose Loan Amount is Below the Average for their Property Area
-SELECT
-    Loan_ID,
-    Property_Area,
-    LoanAmount
-FROM
-    Loan_Applications AS outer_app
-WHERE
-    LoanAmount < (
-        SELECT AVG(LoanAmount)
-        FROM Loan_Applications AS inner_app
-        WHERE inner_app.Property_Area = outer_app.Property_Area
-    )
-ORDER BY
-    Property_Area, LoanAmount DESC;
+-- INSERT SAMPLE DATA
+
+-- Customers
+INSERT INTO customers (first_name, last_name, email, city) VALUES
+('Alice', 'Smith', 'alice@example.com', 'New York'),
+('Bob', 'Johnson', 'bob@example.com', 'Los Angeles'),
+('Charlie', 'Williams', 'charlie@example.com', 'New York'),
+('David', 'Brown', 'david@example.com', 'Chicago'),
+('Eva', 'Davis', 'eva@example.com', 'Miami');
+
+-- Orders
+INSERT INTO orders (customer_id, order_date, total_amount) VALUES
+(1, '2025-07-01', 250.00),
+(2, '2025-07-03', 150.00),
+(1, '2025-07-04', 300.00),
+(3, '2025-07-05', 120.00),
+(4, '2025-07-06', 90.00);
+
+-- Products
+INSERT INTO products (name, category, price) VALUES
+('Laptop', 'Electronics', 800.00),
+('Headphones', 'Electronics', 100.00),
+('Coffee Maker', 'Home Appliances', 75.00),
+('Book', 'Stationery', 20.00),
+('Pen', 'Stationery', 5.00);
+
+-- Suppliers
+INSERT INTO suppliers (name, contact_info) VALUES
+('Tech Supplies Inc.', 'tech@example.com'),
+('HomeNeeds Ltd.', 'home@example.com');
+
+-- Product Suppliers
+INSERT INTO product_suppliers (product_id, supplier_id) VALUES
+(1, 1),
+(2, 1),
+(3, 2),
+(4, 2);
+
+-- Order Items
+INSERT INTO order_items (order_id, product_id, quantity, price) VALUES
+(1, 1, 1, 800.00),
+(1, 2, 2, 100.00),
+(2, 3, 1, 75.00),
+(3, 4, 2, 20.00),
+(4, 5, 5, 5.00);
+
+-- QUERIES
+
+-- Query 1: SELECT, WHERE, ORDER BY, GROUP BY
+SELECT c.city, COUNT(*) AS customer_count
+FROM customers c
+GROUP BY city
+ORDER BY customer_count DESC;
+
+-- Query 2: INNER JOIN - Orders with customer names
+SELECT o.order_id, o.order_date, c.first_name || ' ' || c.last_name AS customer_name, o.total_amount
+FROM orders o
+INNER JOIN customers c ON o.customer_id = c.customer_id
+ORDER BY o.order_date DESC;
+
+-- Query 3: LEFT JOIN - All products and their suppliers (even if no supplier)
+SELECT p.name AS product_name, s.name AS supplier_name
+FROM products p
+LEFT JOIN product_suppliers ps ON p.product_id = ps.product_id
+LEFT JOIN suppliers s ON ps.supplier_id = s.supplier_id;
+
+-- Query 4: Subquery - Customers with total spending > 500
+SELECT customer_id, first_name, last_name
+FROM customers
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM orders
+    GROUP BY customer_id
+    HAVING SUM(total_amount) > 500
+);
+
+-- Query 5: Aggregate - Average order value per customer
+SELECT customer_id, AVG(total_amount) AS avg_order_value
+FROM orders
+GROUP BY customer_id;
+
+-- Query 6: Create View - Order summary
+CREATE OR REPLACE VIEW order_summary AS
+SELECT o.order_id, o.order_date, c.first_name || ' ' || c.last_name AS customer_name, o.total_amount
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id;
+
+-- Query 7: Create Index - On order_date
+CREATE INDEX idx_order_date ON orders(order_date);
+
+-- Query 8: Top 5 most sold products
+SELECT p.name AS product_name, SUM(oi.quantity) AS total_sold
+FROM order_items oi
+JOIN products p ON oi.product_id = p.product_id
+GROUP BY p.name
+ORDER BY total_sold DESC
+LIMIT 5;
